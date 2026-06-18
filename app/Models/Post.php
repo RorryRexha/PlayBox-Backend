@@ -24,4 +24,9 @@ class Post extends Model
     {
         return $this->belongsTo(Game::class);
     }
+
+    public function comments()
+{
+    return $this->hasMany(Comment::class);
+}
 }
