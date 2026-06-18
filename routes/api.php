@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\GameController;
+use App\Http\Controllers\Api\MediaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('posts', PostController::class);
     Route::apiResource('games', GameController::class);
-
+    Route::apiResource('media', MediaController::class);
 
 });
