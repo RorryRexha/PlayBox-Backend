@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\GameController;
 use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\LikeController;
+use App\Http\Controllers\Api\FollowController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,5 +32,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('media', MediaController::class);
     Route::apiResource('comments', CommentController::class);
     Route::post('/posts/{post}/like', [LikeController::class, 'like']);
+    Route::delete('/posts/{post}/like', [LikeController::class, 'unlike']);
+    Route::post('/users/{user}/follow', [FollowController::class, 'follow']);
+    Route::delete('/users/{user}/follow', [FollowController::class, 'unfollow']);
+    
 
 });
