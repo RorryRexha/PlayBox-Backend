@@ -14,6 +14,7 @@ use App\Models\Post;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Notification;
+use App\Models\Achievement;
 
 #[Fillable([
     'username',
@@ -68,6 +69,11 @@ public function notifications()
 public function sentNotifications()
 {
     return $this->hasMany(Notification::class, 'sender_id');
+}
+
+public function achievements()
+{
+    return $this->hasMany(Achievement::class);
 }
 
 
