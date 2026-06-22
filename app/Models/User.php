@@ -13,6 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\Post;
 use App\Models\Comment;
 use App\Models\Like;
+use App\Models\Notification;
 
 #[Fillable([
     'username',
@@ -57,5 +58,17 @@ public function comments()
 public function likes()
 {
     return $this->hasMany(Like::class);
-}                                                           
+}
+
+public function notifications()
+{
+    return $this->hasMany(Notification::class);
+}
+
+public function sentNotifications()
+{
+    return $this->hasMany(Notification::class, 'sender_id');
+}
+
+
 }

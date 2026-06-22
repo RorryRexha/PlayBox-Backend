@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\FollowController;
+use App\Http\Controllers\Api\NotificationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -35,6 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/posts/{post}/like', [LikeController::class, 'unlike']);
     Route::post('/users/{user}/follow', [FollowController::class, 'follow']);
     Route::delete('/users/{user}/follow', [FollowController::class, 'unfollow']);
+    Route::apiResource('notifications', NotificationController::class);
     
 
 });
