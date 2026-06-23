@@ -12,25 +12,46 @@ class Post extends Model
     protected $fillable = [
         'user_id',
         'game_id',
-        'description'
+        'description',
     ];
 
+    // =========================
+    // 👤 RELACIÓN USUARIO
+    // =========================
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    // =========================
+    // 🎮 RELACIÓN JUEGO
+    // =========================
     public function game()
     {
         return $this->belongsTo(Game::class);
     }
 
+    // =========================
+    // 💬 COMENTARIOS
+    // =========================
     public function comments()
-{
-    return $this->hasMany(Comment::class);
-}
-public function likes()
-{
-    return $this->hasMany(Like::class);
-}
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    // =========================
+    // ❤️ LIKES
+    // =========================
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    // =========================
+    // 📦 MEDIA (IMÁGENES / VIDEOS)
+    // =========================
+    public function media()
+    {
+        return $this->hasMany(Media::class);
+    }
 }

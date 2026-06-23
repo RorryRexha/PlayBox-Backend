@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Media;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MediaController extends Controller
 {
     /**
-     * Mostrar todos los archivos
+     * 📡 Listar media
      */
     public function index()
     {
@@ -19,7 +20,8 @@ class MediaController extends Controller
     }
 
     /**
-     * Registrar archivo
+     * 📤 Crear media (manual si lo necesitas)
+     * 👉 Opcional, porque normalmente lo crea PostController
      */
     public function store(Request $request)
     {
@@ -36,13 +38,13 @@ class MediaController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Archivo agregado correctamente',
+            'message' => 'Media creada correctamente',
             'media' => $media
-        ],201);
+        ], 201);
     }
 
     /**
-     * Mostrar archivo
+     * 📄 Ver media
      */
     public function show(string $id)
     {
@@ -52,14 +54,21 @@ class MediaController extends Controller
     }
 
     /**
-     * Eliminar archivo
+     * 🗑️ Eliminar media
      */
     public function destroy(string $id)
     {
-        Media::findOrFail($id)->delete();
+        $media = Media::findOrFail($id);
+
+        // ❗ si quieres borrar archivo físico en storage:
+        if ($media->url) {
+            Storage::disk('public')->delete($media->url);
+        }
+
+        $media->delete();
 
         return response()->json([
-            'message' => 'Archivo eliminado'
+            'message' => 'Archivo eliminado correctamente'
         ]);
     }
 }
