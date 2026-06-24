@@ -63,4 +63,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Achievements
     Route::apiResource('achievements', AchievementController::class);
+    Route::post('/posts/{post}/toggle-like', [LikeController::class, 'toggle']);
 });

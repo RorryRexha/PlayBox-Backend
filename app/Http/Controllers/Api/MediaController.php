@@ -23,26 +23,33 @@ class MediaController extends Controller
      * 📤 Crear media (manual si lo necesitas)
      * 👉 Opcional, porque normalmente lo crea PostController
      */
-    public function store(Request $request)
+    class MediaController extends Controller
+{
+    public function index()
     {
-        $request->validate([
-            'post_id' => 'required|exists:posts,id',
-            'url' => 'required|string',
-            'type' => 'required|in:image,video'
-        ]);
-
-        $media = Media::create([
-            'post_id' => $request->post_id,
-            'url' => $request->url,
-            'type' => $request->type
-        ]);
-
-        return response()->json([
-            'message' => 'Media creada correctamente',
-            'media' => $media
-        ], 201);
+        return response()->json(
+            Media::with('post')->latest()->get()
+        );
     }
 
+    public function show(string $id)
+    {
+        return response()->json(
+            Media::with('post')->findOrFail($id)
+        );
+    }
+
+    public function destroy(string $id)
+    {
+        $media = Media::findOrFail($id);
+
+        $media->delete();
+
+        return response()->json([
+            'message' => 'Archivo eliminado correctamente'
+        ]);
+    }
+}
     /**
      * 📄 Ver media
      */

@@ -25,43 +25,34 @@ class PostController extends Controller
      * 📤 Crear post
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'description' => 'nullable|string|max:1000',
-            'game_id' => 'nullable|exists:games,id',
-            'image' => 'nullable|image|max:5120',
+{
+    $request->validate([
+        'description' => 'nullable|string|max:1000',
+        'game_id' => 'nullable|exists:games,id',
+        'image' => 'nullable|image|max:5120',
+    ]);
+
+    $post = Post::create([
+        'user_id' => $request->user()->id,
+        'game_id' => $request->game_id,
+        'description' => $request->description,
+    ]);
+
+    if ($request->hasFile('image')) {
+
+        $path = $request->file('image')->store('posts', 'public');
+
+        $post->media()->create([
+            'url' => $path,
+            'type' => 'image',
         ]);
-
-        // 🧠 Crear post base
-        $post = Post::create([
-            'user_id' => $request->user()->id,
-            'game_id' => $request->game_id,
-            'description' => $request->description,
-        ]);
-
-        // 📦 Crear media solo si archivo válido
-        if ($request->hasFile('image')) {
-
-            $file = $request->file('image');
-
-            if ($file && $file->isValid()) {
-
-                $path = $file->store('posts', 'public');
-
-                if ($path) {
-                    $post->media()->create([
-                        'url' => $path,
-                        'type' => 'image',
-                    ]);
-                }
-            }
-        }
-
-        return response()->json([
-            'message' => 'Post creado correctamente',
-            'post' => $post->load(['user', 'media'])
-        ], 201);
     }
+
+    return response()->json([
+        'message' => 'Post creado correctamente',
+        'post' => $post->load(['user','media'])
+    ], 201);
+}
 
     /**
      * 📄 Ver post
